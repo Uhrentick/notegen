@@ -83,7 +83,8 @@ var notes = [c1,cs1,d1,ds1,e1,f1,g1,gs1,a1,
 			e6,f6,fs6,g6,gs6,a6,as6,b6];
 
 var isRunning = false;
-var rolling;			
+var rolling;
+var countDown;		
 
 function Note(base,octave,type,nextBase,frequency,base2){
 	this.base = base;
@@ -207,7 +208,7 @@ function getRandomItem(xArray){
 }
 
 
-function main(){
+function Main(){
 	this.isSharp;
 	this.isFlat;
 	this.case;
@@ -230,6 +231,8 @@ function main(){
 		this.currentNote = getRandomItem(all);
 		prevNote = this.currentNote;
 	}
+	// which types of notes are requested?
+	// all,sharps&naturals,flats&naturals,only naturals
 	this.getCase = function(){
 		if(this.isSharp && this.isFlat){
 			return 0;
@@ -242,31 +245,31 @@ function main(){
 		}
 	}
 	this.getNote = function(){
-			switch(this.case){
-				//sharps,flats,naturals
-				case 0:
-					return this.currentNote.getRand(this.isHard);
-				break;
-				//sharps,naturals
-				case 1:
+		switch(this.case){
+			//sharps,flats,naturals
+			case 0:
+				return this.currentNote.getRand(this.isHard);
+			break;
+			//sharps,naturals
+			case 1:
+				return this.currentNote.getNote(this.isHard);
+			break;
+			//flats,naturals
+			case 2:
+				if(this.currentNote.type){
+					return this.currentNote.getFlat(this.isHard);
+				}else{
 					return this.currentNote.getNote(this.isHard);
-				break;
-				//flats,naturals
-				case 2:
-					if(this.currentNote.type){
-						return this.currentNote.getFlat(this.isHard);
-					}else{
-						return this.currentNote.getNote(this.isHard);
-					}
-				break;
-				//naturals
-				case 3:
-					while(this.currentNote.type){
-						this.setNote();
-					}
-					return this.currentNote.getNote(this.isHard);
-				break;
-			}		
+				}
+			break;
+			//naturals
+			case 3:
+				while(this.currentNote.type){
+					this.setNote();
+				}
+				return this.currentNote.getNote(this.isHard);
+			break;
+		}		
 	}
 	this.write = function(id){
 		this.isSharp = getVarFromId('s').checked;
@@ -277,35 +280,65 @@ function main(){
 		this.tempOut = this.getNote();
 		getVarFromId(id).innerHTML = this.tempOut;
 		getVarFromId('fret5').innerHTML = 'E2: '+this.currentNote.isWhatFretOn(5,this.isHard);
-		getVarFromId('fret4').innerHTML = '&nbsp;B: '+this.currentNote.isWhatFretOn(4,this.isHard);
-		getVarFromId('fret3').innerHTML = '&nbsp;G: '+this.currentNote.isWhatFretOn(3,this.isHard);
-		getVarFromId('fret2').innerHTML = '&nbsp;D: '+this.currentNote.isWhatFretOn(2,this.isHard);
-		getVarFromId('fret1').innerHTML = '&nbsp;A: '+this.currentNote.isWhatFretOn(1,this.isHard);
-		getVarFromId('fret0').innerHTML = '&nbsp;E: '+this.currentNote.isWhatFretOn(0,this.isHard);
+		getVarFromId('fret4').innerHTML = 'B: '+this.currentNote.isWhatFretOn(4,this.isHard);
+		getVarFromId('fret3').innerHTML = 'G: '+this.currentNote.isWhatFretOn(3,this.isHard);
+		getVarFromId('fret2').innerHTML = 'D: '+this.currentNote.isWhatFretOn(2,this.isHard);
+		getVarFromId('fret1').innerHTML = 'A: '+this.currentNote.isWhatFretOn(1,this.isHard);
+		getVarFromId('fret0').innerHTML = 'E: '+this.currentNote.isWhatFretOn(0,this.isHard);
 
 		console.log(this.tempOut);
 	}
 }
 
-	var mainX = new main();
+var mainX = new Main();
+var counter = new Countdown();
+
 function doIt(){
-	mainX.write('note');
-	// playSound(mainX.currentNote.frequency);
+	var time = getVarFromId('number').value;
+	counter.calcSeconds();
+	getVarFromId('text').innerHTML = counter.getSeconds()+'s';
+	var k = counter.getSeconds()/time*100;
+	getVarFromId('graphical').style.width = k+'%';
+
+	if(counter.seconds==time){
+		mainX.write('note');
+		// playSound(mainX.currentNote.frequency);
+	}
 }
 
+// 
+function Countdown(){
+	this.seconds;
+	this.calcSeconds = function(){
+		if(this.seconds == 0){
+			this.setSeconds();
+		}else{
+			this.seconds--;			
+		}
+	}
+	this.setSeconds = function(){
+		this.seconds = getVarFromId('number').value;
+	}
+	this.getSeconds = function(){
+		return this.seconds;
+	}
+}
+
+// starts or stops notegeneration depending on
+// the global 'isRunning'
 function runOrDie(){
 	console.log('runordie');
-	var time = getVarFromId('number').value * 1000;
 	if(isRunning){
 		console.log('stopped');
 		clearInterval(rolling);
+		clearInterval(countDown);
 		isRunning = false;
 	}else{
 		console.log('started');
-		rolling = setInterval(doIt,time);
+		counter.setSeconds();
+		rolling = setInterval(doIt,1000);
 		isRunning = true;
 	}
-
 }
 
 
