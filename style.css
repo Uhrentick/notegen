@@ -20,16 +20,19 @@ html,body{
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  background: #f12929;
 }
 #text{
   display: inline-block;
   font-size: 120px;
   line-height: 200px;
   vertical-align: middle;
+  position: absolute;
+  width: 50%;
+  top:0;
+  left:0;
 }
-#graphical{
-  background-color: #f12929;
-}
+
 .cls{
   width: 50%;
   height: 100%;
@@ -44,11 +47,14 @@ html,body{
   font-weight: bold;
 }
 
-#realdeal{
+#graphical{
   width: 100%;
+  max-width: 100%;
+  min-width: 0%;
   height: 100%;
   background: lightblue;
   transition: width 0.2s ease;
+  position: relative;
 }
 
 #note{
@@ -56,7 +62,7 @@ html,body{
   text-align: center;
   font-size: 180px;
   line-height: 300px;
-  border: 10px solid cornflowerblue;
+  border: 10px solid cornflowerblue;  
 }
 
 #eingabe{
