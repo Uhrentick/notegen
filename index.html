@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+
+<head>
+<title>Play it!</title>
+<link href='style.css' rel='stylesheet'>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+</head>
+
+<body>
+<div id='wrapper'>
+	<div id='timer'>
+    <div id='countdown' class='cls'>
+      <span id='text'>00s</span>
+    </div>
+    <div id='graphical' class='cls'>
+      <div id='realdeal'></div>
+    </div>
+	</div>
+
+	<div id='note' onclick='runOrDie()'>F#</div>
+
+	<div id='eingabe'>
+    <input class='input' id='number' type='number' placeholder='s' value='5' min='0' max='59'></input>
+
+    <!-- <button class='input' onclick="console.log('startfunktion')" autofocus>Start</button>
+    <button class='input' onclick="console.log('stopfunktion')">Stop</button> -->
+
+    <span class='noBreak'><input class='checkboxna' type='checkbox' id='s'>#</span>
+    <span class='noBreak'><input class='checkboxna' type='checkbox' id='b'>&#x266D;</span>
+    <span class='noBreak'><input class='checkboxna' type='checkbox' id='mode' onclick="console.log('hardmodefunktion und hide menu')">hard</span>
+
+    <select onchange="console.log('systemfunktion')">
+      <option value="American">CDEFGAB</option>
+      <option value="European">CDEFGAH</option>
+    </select>
+
+    <div id='hardSettings' style='/*display:none*/' >
+		<select id='string0' onchange="">
+	    	<option>B1</option><option>C2</option><option>C#2</option>
+	    	<option>D2</option><option>D#2</option>
+	    	<option selected>E2</option>
+	    	<option>F2</option><option>F#2</option><option>G2</option>
+	    	<option>G#2</option><option>A2</option>
+	  	</select>
+		<select id='string1'>
+	    	<option>E2</option><option>F2</option><option>F#2</option>
+	    	<option>G2</option><option>G#2</option>
+	    	<option selected>A2</option>
+	    	<option>A#2</option><option>B2</option><option>C3</option>
+	    	<option>C#3</option><option>D3</option>
+    	</select>
+	    <select id='string2'>
+	    	<option>A2</option><option>A#2</option><option>B2</option>
+	    	<option>C3</option><option>C#3</option>
+	    	<option selected>D3</option>
+	    	<option>D#3</option><option>E3</option><option>F3</option>
+	    	<option>F#3</option><option>G3</option>
+	    </select>
+	    <select id='string3'>
+	    	<option>D3</option><option>D#3</option><option>E3</option>
+	    	<option>F3</option><option>F#3</option>
+	    	<option selected>G3</option>
+	    	<option>G#3</option><option>A3</option><option>A#3</option>
+	    	<option>B3</option><option>C4</option>
+	    </select>
+	    <select id='string4'>
+	    	<option>F#3</option><option>G3</option><option>G#3</option>
+	    	<option>A3</option><option>A#3</option>
+	    	<option selected>B3</option>
+	    	<option>C4</option><option>C#4</option><option>D4</option>
+	    	<option>D#4</option><option>E4</option>
+	    </select>
+	    <select id='string5'>
+	    	<option>B3</option><option>C4</option><option>C#4</option>
+	    	<option>D4</option><option>D#4</option>
+	    	<option selected>E4</option>
+	    	<option>F4</option><option>F#4</option><option>G4</option>
+	    	<option>G#4</option><option>A4</option>
+	    </select>
+		</div>
+
+	</div>
+</div>
+<div id='fret5' class='fretDisplay'>E: -</div> 
+<div id='fret4' class='fretDisplay'>B: -</div>
+<div id='fret3' class='fretDisplay'>G: -</div>
+<div id='fret2' class='fretDisplay'>D: -</div>
+<div id='fret1' class='fretDisplay'>A: -</div>
+<div id='fret0' class='fretDisplay'>E: -</div>
+
+<script src='script.js'></script>
+</body>
+</html>
+
+	
