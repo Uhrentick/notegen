@@ -103,9 +103,17 @@ function Note(base,octave,type,nextBase,frequency,base2){
 		r = Math.round(r);
 		var temp;
 		if(r){
-			temp = this.base+this.sharp;
+			if(this.type){
+				temp = this.base+this.sharp;				
+			}else{
+				temp = this.base;
+			}
 		}else{
-			temp = this.nextBase+this.flat;
+			if(this.type){
+				temp = this.nextBase+this.flat;
+			}else{
+				temp = this.base;
+			}
 		}
 		if(isHard){
 			temp += this.octave;
@@ -164,7 +172,7 @@ function Note(base,octave,type,nextBase,frequency,base2){
 }
 
 // 0=e,1=a,2=d,3=g,4=b,5=e2
-// Returns one specified fret as an array
+// Returns all notes of the specified string
 function getString(string){
 	var firstNote = document.getElementById('string'+string).value;
 	var finalString = new Array();
@@ -212,6 +220,7 @@ function Main(){
 	this.isSharp;
 	this.isFlat;
 	this.case;
+	this.system;
 	this.isHard;
 	this.target;
 	this.prevNote;
@@ -275,9 +284,13 @@ function Main(){
 		this.isSharp = getVarFromId('s').checked;
 		this.isFlat = getVarFromId('b').checked;
 		this.isHard = getVarFromId('mode').checked;
-		this.case = this.getCase();
+		this.case = this.getCase();		
 		this.setNote();
 		this.tempOut = this.getNote();
+		this.system = getVarFromId('system');
+		if(this.system.value=='European'){
+			this.tempOut = this.tempOut.replace("B","H");
+		}
 		getVarFromId(id).innerHTML = this.tempOut;
 		getVarFromId('fret5').innerHTML = 'E2: '+this.currentNote.isWhatFretOn(5,this.isHard);
 		getVarFromId('fret4').innerHTML = 'B: '+this.currentNote.isWhatFretOn(4,this.isHard);
@@ -351,9 +364,9 @@ function runOrDie(){
 // var gainNode= context.createGain();
 
 // gainNode.gain.value = 0.5;
-// gainNode.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 3);
+// gainNode.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 3);
 // osc.frequency.value = freq;
-// osc.type = 'sine';
+// osc.type = 'saw';
 // osc.connect(gainNode);
 // gainNode.connect(context.destination);
 // osc.start();
